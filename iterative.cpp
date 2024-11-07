@@ -3,9 +3,20 @@
 #include <chrono>   
 using namespace std;
 
-int misMatch = 3;
 int gap =2;
 
+int misMatch(char a,char b){
+    vector<int> vol(26,0);
+    string vols = "aeiou";
+    for(char ch: vols){
+        vol[ch-'a'] = 1;
+    }
+    if(vol[a] == vol[b]){
+        return 1;
+    }else{
+        return 3;
+    }
+}
 
 int main()
 {
@@ -29,7 +40,7 @@ int main()
         {
             if (i == 0 || j == 0)
             {
-                dp[i][j] = i + j;
+                dp[i][j] = (i + j)*gap;
             }
             else if (word1[i - 1] == word2[j - 1])
             {
@@ -37,7 +48,7 @@ int main()
             }
             else
             {
-                dp[i][j] =  min(min(gap + dp[i][j - 1], gap + dp[i - 1][j]), misMatch + dp[i - 1][j - 1]);
+                dp[i][j] =  min(min(gap + dp[i][j - 1], gap + dp[i - 1][j]), misMatch(word1[i-1],word2[j-1]) + dp[i - 1][j - 1]);
             }
         }
     }
